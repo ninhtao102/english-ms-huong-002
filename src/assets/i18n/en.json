@@ -1,0 +1,337 @@
+{
+    "common": {
+        "management": "Management",
+        "all": "All",
+        "noDataAvailable": "No data available",
+        "selectOption": "Select option",
+        "actions": "Actions",
+        "search": "Search",
+        "exportExcel": "Export Excel",
+        "importExcel": "Import Excel",
+        "importWord": "Import Word",
+        "indexes": "Indexes",
+        "answers": "Answers",
+        "categories": "Categories",
+        "classes": "Classes",
+        "class": "Class",
+        "content": "Content",
+        "homeworks": "Homeworks",
+        "tests": "Tests",
+        "persons": "Persons",
+        "questions": "Questions",
+        "preview": "Preview",
+        "add": "Add",
+        "edit": "Edit",
+        "clone": "Clone",
+        "delete": "Delete",
+        "createLink": "Create Link",
+        "yes": "Yes",
+        "no": "No",
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "getDetail": "Get detail",
+        "detail": "Detail",
+        "save": "Save",
+        "createdSuccessfully": "Created successfully",
+        "updatedSuccessfully": "Updated successfully",
+        "deletedSuccessfully": "Deleted successfully",
+        "keyword": "Keyword",
+        "keywordPlaceholder": "Enter keyword to search",
+        "status": "Status",
+        "createdDate": "Created Date",
+        "updatedDate": "Updated Date",
+        "invalidRequired": "{{field}} is required",
+        "invalidMaxLength": "{{field}} must be at most {{max}} characters",
+        "invalidMinLength": "{{field}} must be at least {{min}} characters",
+        "invalidPatern": "{{field}} must be in the correct format",
+        "view": "View",
+        "addEdit": "Add or Edit",
+        "confirmDeletion": "Confirm Deletion",
+        "areYouSureToDelete": "Are you sure you want to delete this {{field}} {{value}}?",
+        "actionFieldSuccessfully": "{{action}} {{field}} successfully",
+        "actionFieldFailed": "{{action}} {{field}} failed",
+        "supportedFormats": "Supported formats: .doc, .docx",
+        "selectFileToUpload": "Please select a file to upload",
+        "selectValidWordDocument": "Please select a valid Word document (.doc or .docx)",
+        "success": "Success",
+        "error": "Error",
+        "failure": "Failure",
+        "warning": "Warning",
+        "info": "Info",
+        "back": "Back"
+    },
+    "answers": {
+        "field": "answer",
+        "label": {
+            "answerText": "Answer Text",
+            "questionId": "Question",
+            "isCorrect": "Is Correct",
+            "orderIndex": "Order Index"
+        },
+        "placeholders": {
+            "answerText": "Enter answer text",
+            "questionId": "Select question"
+        },
+        "columns": {
+            "questionText": "Question Text",
+            "answerText": "Answer Text",
+            "isCorrect": "Is Correct",
+            "orderIndex": "Order Index",
+            "createdDate": "Created Date"
+        }
+    },
+    "categories": {
+        "field": "categories",
+        "label": {
+            "code": "Code",
+            "name": "Name",
+            "codeName": "Category Code Name",
+            "description": "Description",
+            "shortDescription": "Short Description",
+            "parent": "Parent",
+            "parentId": "Parent",
+            "level": "Level"
+        },
+        "placeholders": {
+            "code": "Enter code",
+            "name": "Enter name",
+            "description": "Enter description"
+        },
+        "columns": {
+            "id": "ID",
+            "code": "Code",
+            "name": "Name",
+            "description": "Description",
+            "shortDescription": "Short Description",
+            "parent": "Parent",
+            "parentId": "Parent",
+            "level": "Level",
+            "createdDate": "Created Date"
+        }
+    },
+    "classes": {
+        "field": "class",
+        "label": {
+            "className": "Class Name",
+            "classCode": "Class Code",
+            "codeName": "Class Code Name",
+            "teacher": "Teacher",
+            "teacherId": "Teacher",
+            "academicYear": "Academic Year",
+            "description": "Description"
+        },
+        "placeholders": {
+            "academicYear": "Enter academic year"
+        },
+        "columns": {
+            "id": "ID",
+            "className": "Class Name",
+            "classCode": "Class Code",
+            "teacherId": "Teacher",
+            "academicYear": "Academic Year",
+            "createdDate": "Created Date"
+        }
+    },
+    "content": {
+        "field": "content",
+        "label": {
+            "code": "Code",
+            "name": "Name",
+            "description": "Description",
+            "shortDescription": "Short Description",
+            "contentType": "Content Type",
+            "url": "URL",
+            "filePath": "File Path"
+        },
+        "placeholders": {
+            "code": "Enter code",
+            "name": "Enter name",
+            "description": "Enter description",
+            "contentType": "Select content type",
+            "url": "Enter URL",
+            "filePath": "Enter file path"
+        },
+        "columns": {
+            "id": "ID",
+            "code": "Code",
+            "name": "Name",
+            "description": "Description",
+            "shortDescription": "Short Description",
+            "contentType": "Content Type",
+            "url": "URL",
+            "filePath": "File Path",
+            "createdDate": "Created Date"
+        }
+    },
+    "dashboard": {
+        "summary": "Summary",
+        "overDue": "Over Due",
+        "nearOverDue": "Near Over Due",
+        "open": "Open",
+        "features": "Features",
+        "completed": "Completed",
+        "students": "Students",
+        "classes": "Classes",
+        "fromYesterday": "From yesterday",
+        "fromLastWeek": "From last week",
+        "fromLastMonth": "From last month",
+        "closedToday": "Closed today",
+        "homeworks": "Homeworks",
+        "dueHomeworks": "Due Homeworks",
+        "overDueHomeworks": "Overdue Homeworks",
+        "nearOverDueHomeworks": "Near Overdue Homeworks"
+    },
+    "homeworks": {
+        "field": "homework",
+        "questionField": "homework question",
+        "answerField": "homework answer",
+        "preview": "Preview Homework",
+        "label": {
+            "title": "Title",
+            "description": "Description",
+            "classId": "Class",
+            "class": "Class",
+            "assignedDate": "Assigned Date",
+            "assignedDateFrom": "Assigned Date From",
+            "assignedDateTo": "Assigned Date To",
+            "dueDateFrom": "Due Date From",
+            "dueDateTo": "Due Date To",
+            "dueDate": "Due Date",
+            "suggestAnswer": "Suggest Answer"
+        },
+        "placeholders": {
+            "title": "Enter title",
+            "assignedDateFrom": "Enter assigned date from",
+            "assignedDateTo": "Enter assigned date to",
+            "dueDateFrom": "Enter due date from",
+            "dueDateTo": "Enter due date to",
+            "suggestAnswer": "Enter suggest answer"
+        },
+        "columns": {
+            "title": "Title",
+            "description": "Description",
+            "className": "Class Name",
+            "assignedDate": "Assigned Date",
+            "dueDate": "Due Date",
+            "createdDate": "Created Date"
+        }
+    },
+    "persons": {
+        "field": "person",
+        "type": {
+            "admin": "Admin",
+            "teacher": "Teacher",
+            "student": "Student",
+            "client": "Client",
+            "male": "Male",
+            "female": "Female",
+            "unknown": "Unknown"
+        },
+        "label": {
+            "type": "Type",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "displayName": "Name",
+            "birthDate": "Birth Date",
+            "gender": "Gender",
+            "phoneNumber": "Phone Number",
+            "email": "Email",
+            "class": "Class",
+            "className": "Class",
+            "enrollmentDate": "Enrollment Date",
+            "hireDate": "Hire Date"
+        },
+        "placeholders": {
+            "keyword": "Enter display name or phone number",
+            "firstName": "Enter first name",
+            "lastName": "Enter last name",
+            "birthDate": "Enter birth date",
+            "phoneNumber": "Enter phone number",
+            "email": "Enter email",
+            "enrollmentDate": "Enter enrollment date",
+            "hireDate": "Enter hire date"
+        },
+        "columns": {
+            "type": "Type",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "displayName": "Name",
+            "phoneNumber": "Phone Number",
+            "email": "Email",
+            "className": "Class",
+            "enrollmentDate": "Enrollment Date",
+            "hireDate": "Hire Date",
+            "createdDate": "Created Date"
+        }
+    },
+    "questions": {
+        "field": "question",
+        "preview": "Preview Question",
+        "studentFillAnswerInto": "(Student fill answer into...)",
+        "type": {
+            "singleChoice": "Single Choice",
+            "multipleChoice": "Multiple Choice",
+            "reading": "Reading",
+            "fillBlanks": "Fill in the blanks",
+            "rewrite": "Rewrite Sentences",
+            "essay": "Essay"
+        },
+        "message": {
+            "atLeastOneCorrectAnswer": "The question must have at least one correct answer",
+            "singleChoiceOneCorrect": "Single choice questions must have only one correct answer",
+            "multipleChoiceFewerCorrect": "Multiple choice questions must have fewer correct answers than the total number of answers"
+        },
+        "label": {
+            "questionType": "Question Type",
+            "questionText": "Question Text",
+            "readingPassage": "Reading Passage",
+            "questionYear": "Question Year",
+            "points": "Points",
+            "suggestAnswer": "Suggest Answer",
+            "listAnswer": "List Answer"
+        },
+        "placeholders": {
+            "questionType": "Select question type",
+            "questionText": "Enter question text",
+            "readingPassage": "Enter reading passage",
+            "questionYear": "Enter question year",
+            "points": "Enter points",
+            "suggestAnswer": "Enter suggest answer"
+        },
+        "columns": {
+            "questionText": "Question Text",
+            "questionType": "Question Type",
+            "questionYear": "Question Year",
+            "points": "Points",
+            "createdDate": "Created Date"
+        }
+    },
+    "submissions": {
+        "field": "submission",
+        "label": {
+            "homeworkId": "Homework",
+            "homeworkTitle": "Homework Title",
+            "studentId": "Student",
+            "studentName": "Student Name",
+            "submissionDate": "Submission Date",
+            "content": "Content",
+            "grade": "Grade",
+            "feedback": "Feedback"
+        },
+        "placeholders": {
+            "homeworkId": "Select homework",
+            "studentId": "Select student",
+            "submissionDate": "Enter submission date",
+            "content": "Enter content",
+            "grade": "Enter grade",
+            "feedback": "Enter feedback"
+        },
+        "columns": {
+            "homeworkTitle": "Homework Title",
+            "studentName": "Student Name",
+            "submissionDate": "Submission Date",
+            "grade": "Grade",
+            "createdDate": "Created Date"
+        }
+    }
+}

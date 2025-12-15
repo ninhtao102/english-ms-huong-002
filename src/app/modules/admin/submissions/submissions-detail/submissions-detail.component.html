@@ -1,0 +1,112 @@
+<div class="flex flex-col flex-auto min-w-0 gap-6">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-0 sm:px-10 bg-default dark:bg-transparent">
+        <app-breadcrumb [parentName]="'common.management' | transloco" [screenName]="'common.submissions' | transloco" [detailScreenName]="titlePage | transloco"></app-breadcrumb>
+
+        <!-- Actions -->
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 gap-4">
+                <button mat-stroked-button (click)="onBack()">
+                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_outline:arrow-sm-left'"></mat-icon>
+                    <span>{{ 'common.back' | transloco }}</span>
+                </button>
+
+                <button mat-flat-button [color]="'primary'" [disabled]="formDetail.invalid" (click)="onSave()" *ngIf="!readonly">
+                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_outline:save'"></mat-icon>
+                    <span>{{ 'common.save' | transloco }}</span>
+                </button>
+            </div>
+    </div>
+
+    <div class="mx-6 flex flex-row gap-6">
+        <!-- Left -->
+        <div class="left w-1/2 max-h-screen flex flex-col flex-auto min-w-0 gap-6">
+            <!-- Preview Submission -->
+            <div class="p-6 rounded-2xl shadow bg-card overflow-y-scroll" style="height: calc(100vh - calc(128px + 64px));">
+                <!-- <p class="font-medium">{{ 'submissions.preview' | transloco}}</p> -->
+                <p class="font-bold text-center">{{ formDetail.value.title }}</p>
+                <p class="font-medium text-center">{{ formDetail.value.description }}</p>
+                <div class="flex flex-row gap-8 justify-center">
+                    <p>{{ getClassName(formDetail.value.classId) }}</p>
+                    <p>{{ formDetail.value.dueDate | date: 'dd/MM/yyyy' }}</p>
+                </div>
+
+                <hr class="my-3">
+
+                <div *ngFor="let question of formDetail.value.questions" class="mb-3">
+                    <div class="flex flex-wrap font-bold" *ngIf="question.questionText" [innerHTML]="question.questionText | dotPatternReplace"></div>
+                    <div class="readingPassage flex flex-wrap" *ngIf="question.readingPassage" [innerHTML]="question.readingPassage | dotPatternReplace"></div>
+
+                    <!-- Essay -->
+                    <ng-container *ngIf="question.questionType === 6">
+                        <hr class="w-full border-b border-dashed my-6 mb-0">
+                        <hr class="w-full border-b border-dashed my-6 mb-0">
+                        <hr class="w-full border-b border-dashed my-6 mb-0">
+                    </ng-container>
+
+                    <!-- Child question -->
+                    <ng-container *ngFor="let child of question.questions; let i = index">
+                        <div class="flex justify-between items-center">
+                            <div class="flex flex-wrap mb-3 font-semibold">
+                                <p *ngIf="child.questionType !== 0" class="">Question {{ i + 1 }}:&nbsp;</p>
+                                <div class="questionText flex flex-wrap gap-1" *ngIf="child.questionText" [innerHTML]="child.questionText | dotPatternReplace"></div>
+                            </div>
+
+                            <div class="flex gap-2" *ngIf="!readonly">
+                                <button mat-icon-button color="accent" (click)="openDialogUpdateQuestion(formDetail.value.id, child.id)" [matTooltip]="'common.edit' | transloco">
+                                    <mat-icon [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="openDialogDeleteQuestion(child)" [matTooltip]="'common.delete' | transloco">
+                                    <mat-icon [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="readingPassage flex flex-wrap" *ngIf="child.readingPassage" [innerHTML]="child.readingPassage | dotPatternReplace"></div>
+
+                        <!-- Rewrite -->
+                        <ng-container *ngIf="child.questionType === 5">
+                            <div class="w-full flex flex-wrap gap-1">
+                                &rarr;
+                                <div class="" [innerHTML]="child.suggestAnswer | dotPatternReplace"></div>
+                                <hr class="w-1/2 border-b border-dashed my-6 mb-0">
+                            </div>
+                        </ng-container>
+
+                        <!-- Fill in the blank -->
+                        <ng-container *ngIf="child.questionType === 4">
+                            <div class="w-full flex flex-wrap gap-1">
+                                <div class="" [innerHTML]="child.suggestAnswer | dotPatternReplace"></div>
+                            </div>
+                        </ng-container>
+
+                        <!-- Single choice, multiple choice, reading comprehension -->
+                        <ng-container *ngIf="child.questionType > 0 && child.questionType < 4">
+                            <div class="flex flex-wrap flex-row gap-2" *ngFor="let answer of child.answerDtos">
+                                <ng-container *ngIf="!answer.isCorrect">
+                                    <div class="flex items-center justify-center w-5 h-5">
+                                        <div class="w-4 h-4 rounded-full border-2"></div>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="answer.isCorrect">
+                                    <mat-icon class="text-hint icon-size-5" [svgIcon]="'heroicons_solid:check-circle'"></mat-icon>
+                                </ng-container>
+                                <div class="answerText ml-1.5 leading-5">
+                                    {{ answer.answerText }}
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Right -->
+        <div class="left w-1/2 flex flex-col flex-auto min-w-0 gap-6">
+            <!-- Review Form -->
+            <div class="p-6 rounded-2xl shadow bg-card">
+
+            </div>
+        </div>
+    </div>
+</div>

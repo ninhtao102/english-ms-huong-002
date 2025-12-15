@@ -1,0 +1,57 @@
+<div class="p-6">
+	<div class="flex items-center justify-between mb-6">
+		<h2 mat-dialog-title class="m-0">{{ readonly ? ('common.view' | transloco) : ('common.addEdit' | transloco) }} {{ 'common.content' | transloco }}</h2>
+		<button mat-icon-button [mat-dialog-close]>
+			<mat-icon [svgIcon]="'heroicons_solid:x'"></mat-icon>
+		</button>
+	</div>
+
+	<mat-dialog-content>
+		<form [formGroup]="formDetail">
+			<div class="flex gap-6 mb-4">
+				<mat-form-field class="flex-1">
+                    <mat-label>{{ 'content.label.code' | transloco }}</mat-label>
+                    <input matInput formControlName="code" [disabled]="readonly" required maxlength="21" (blur)="trimValue('code')">
+                    <mat-error *ngIf="formDetail.controls['code']?.hasError('required')">
+                        {{ 'common.invalidRequired' | transloco : { field: ('content.label.code' | transloco) } }}
+                    </mat-error>
+                    <mat-error *ngIf="formDetail.controls['code']?.hasError('maxlength')">
+                        {{ 'common.invalidMaxLength' | transloco : { field: ('content.label.code' | transloco), max: 20 } }}
+                    </mat-error>
+                </mat-form-field>
+
+				<mat-form-field class="flex-1">
+					<mat-label>{{ 'content.label.name' | transloco }}</mat-label>
+					<input matInput formControlName="name" [disabled]="readonly" required maxlength="256" (blur)="trimValue('name')">
+                    <mat-error *ngIf="formDetail.controls['name']?.hasError('required')">
+                        {{ 'common.invalidRequired' | transloco : { field: ('content.label.name' | transloco) } }}
+                    </mat-error>
+                    <mat-error *ngIf="formDetail.controls['name']?.hasError('maxlength')">
+                        {{ 'common.invalidMaxLength' | transloco : { field: ('content.label.name' | transloco), max: 255 } }}
+                    </mat-error>
+				</mat-form-field>
+			</div>
+
+			<mat-form-field class="w-full mb-4">
+				<mat-label>{{ 'content.label.shortDescription' | transloco }}</mat-label>
+				<textarea matInput formControlName="shortDescription" [disabled]="readonly" rows="2" maxlength="501" (blur)="trimValue('shortDescription')"></textarea>
+                <mat-error *ngIf="formDetail.controls['shortDescription']?.hasError('maxlength')">
+                    {{ 'common.invalidMaxLength' | transloco : { field: ('content.label.shortDescription' | transloco), max: 500 } }}
+                </mat-error>
+			</mat-form-field>
+
+			<mat-form-field class="w-full mb-4">
+				<mat-label>{{ 'content.label.description' | transloco }}</mat-label>
+				<textarea matInput formControlName="description" [disabled]="readonly" rows="4" maxlength="501" (blur)="trimValue('description')"></textarea>
+                <mat-error *ngIf="formDetail.controls['description']?.hasError('maxlength')">
+                    {{ 'common.invalidMaxLength' | transloco : { field: ('content.label.description' | transloco), max: 500 } }}
+                </mat-error>
+			</mat-form-field>
+		</form>
+	</mat-dialog-content>
+
+	<mat-dialog-actions align="end">
+		<button mat-stroked-button (click)="onCancel()">{{ 'common.cancel' | transloco }}</button>
+		<button mat-flat-button color="primary" (click)="onSave()" [disabled]="readonly || !formDetail.valid">{{ 'common.save' | transloco }}</button>
+	</mat-dialog-actions>
+</div>

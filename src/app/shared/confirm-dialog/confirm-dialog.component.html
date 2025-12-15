@@ -1,0 +1,17 @@
+<div class="p-6">
+	<div class="flex items-center justify-between mb-6">
+		<h2 mat-dialog-title class="m-0">{{ title | transloco }}</h2>
+		<button mat-icon-button [mat-dialog-close]>
+			<mat-icon [svgIcon]="'heroicons_solid:x'"></mat-icon>
+		</button>
+	</div>
+
+	<mat-dialog-content>
+        <p>{{ message }}</p>
+	</mat-dialog-content>
+
+	<mat-dialog-actions align="end">
+		<button mat-stroked-button (click)="onCancel()">{{ 'common.cancel' | transloco }}</button>
+		<button mat-flat-button color="primary" (click)="onConfirm()">{{ 'common.confirm' | transloco }}</button>
+	</mat-dialog-actions>
+</div>

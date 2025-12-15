@@ -1,0 +1,136 @@
+<div class="flex flex-col flex-auto min-w-0 gap-6" cdkScrollable>
+	<!-- Header -->
+	<div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-0 sm:px-10 bg-default dark:bg-transparent">
+		<app-breadcrumb [parentName]="'common.management' | transloco" [screenName]="'common.submissions' | transloco"></app-breadcrumb>
+
+		<!-- Actions -->
+		<div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 gap-4">
+			<button mat-flat-button [color]="'primary'" (click)="searchHandler()">
+				<mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+				<span>{{ 'common.search' | transloco }}</span>
+			</button>
+		</div>
+	</div>
+
+	<!-- Search form -->
+	<div class="mx-6 p-6 rounded-2xl shadow bg-card">
+		<form [formGroup]="filter" class="rounded-2xl flex flex-col">
+			<div class="flex flex-row gap-6">
+                <mat-form-field class="flex-1 outline">
+                    <mat-label>{{ 'submissions.label.homeworkId' | transloco }}</mat-label>
+                    <mat-select formControlName="homeworkId">
+                        <mat-option value="">{{ 'common.all' | transloco }}</mat-option>
+                        <mat-option *ngFor="let homework of listHomeworks" [value]="homework.id">{{ homework.title }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="flex-1 outline">
+                    <mat-label>{{ 'submissions.label.classId' | transloco }}</mat-label>
+                    <mat-select formControlName="classId">
+                        <mat-option value="">{{ 'common.all' | transloco }}</mat-option>
+                        <mat-option *ngFor="let class of listClasses" [value]="class.id">{{ class.className }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="flex-1 outline">
+                    <mat-label>{{ 'submissions.label.studentId' | transloco }}</mat-label>
+                    <mat-select formControlName="studentId">
+                        <mat-option value="">{{ 'common.all' | transloco }}</mat-option>
+                        <mat-option *ngFor="let student of listStudents" [value]="student.id">{{ student.displayName }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="flex-1 outline">
+					<mat-label>{{ 'submissions.label.dueDateFrom' | transloco }}</mat-label>
+					<input matInput [matDatepicker]="dueDateFromPicker" formControlName="dueDateFrom" placeholder="{{ 'submissions.placeholders.dueDateFrom' | transloco }}">
+					<mat-datepicker-toggle matSuffix [for]="dueDateFromPicker"></mat-datepicker-toggle>
+					<mat-datepicker #dueDateFromPicker></mat-datepicker>
+				</mat-form-field>
+			</div>
+
+			<div class="flex flex-row gap-6">
+				<mat-form-field class="flex-1 outline">
+					<mat-label>{{ 'submissions.label.submittedAtFrom' | transloco }}</mat-label>
+					<input matInput [matDatepicker]="submittedAtFromPicker" formControlName="submittedAtFrom" placeholder="{{ 'submissions.placeholders.submittedAtFrom' | transloco }}">
+					<mat-datepicker-toggle matSuffix [for]="submittedAtFromPicker"></mat-datepicker-toggle>
+					<mat-datepicker #submittedAtFromPicker></mat-datepicker>
+				</mat-form-field>
+
+				<mat-form-field class="flex-1 outline">
+					<mat-label>{{ 'submissions.label.submittedAtTo' | transloco }}</mat-label>
+					<input matInput [matDatepicker]="submittedAtToPicker" formControlName="submittedAtTo" placeholder="{{ 'submissions.placeholders.submittedAtTo' | transloco }}">
+					<mat-datepicker-toggle matSuffix [for]="submittedAtToPicker"></mat-datepicker-toggle>
+					<mat-datepicker #submittedAtToPicker></mat-datepicker>
+				</mat-form-field>
+
+				<mat-form-field class="flex-1 outline">
+					<mat-label>{{ 'submissions.label.dueDateTo' | transloco }}</mat-label>
+					<input matInput [matDatepicker]="dueDateToPicker" formControlName="dueDateTo" placeholder="{{ 'submissions.placeholders.dueDateTo' | transloco }}">
+					<mat-datepicker-toggle matSuffix [for]="dueDateToPicker"></mat-datepicker-toggle>
+					<mat-datepicker #dueDateToPicker></mat-datepicker>
+				</mat-form-field>
+			</div>
+		</form>
+	</div>
+
+	<!-- Table data -->
+	<div class="mx-6 p-6 rounded-2xl shadow bg-card">
+		<div class="overflow-x-auto rounded-2xl">
+			<table mat-table [dataSource]="tableSource" class="w-full border">
+
+				<!-- Index Column -->
+				<ng-container matColumnDef="position">
+					<th mat-header-cell *matHeaderCellDef class="bg-gray-100 p-4 text-left font-semibold">{{ 'common.indexes' | transloco }}</th>
+					<td mat-cell *matCellDef="let row; let i = index" class="p-4 border-t text-center">{{ filter.value.pageIndex * filter.value.pageSize + i + 1 }}</td>
+				</ng-container>
+
+				<!-- Title -->
+				<ng-container matColumnDef="title">
+					<th mat-header-cell *matHeaderCellDef class="bg-gray-100 p-4 text-left font-semibold">{{ 'submissions.columns.title' | transloco }}</th>
+					<td mat-cell *matCellDef="let row" class="p-4 border-t">{{ row.title }}</td>
+				</ng-container>
+
+				<!-- Class Name -->
+				<ng-container matColumnDef="className">
+					<th mat-header-cell *matHeaderCellDef class="bg-gray-100 p-4 text-left font-semibold">{{ 'submissions.columns.className' | transloco }}</th>
+					<td mat-cell *matCellDef="let row" class="p-4 border-t">{{ row.className }}</td>
+				</ng-container>
+
+				<!-- Due Date -->
+				<ng-container matColumnDef="dueDate">
+					<th mat-header-cell *matHeaderCellDef class="bg-gray-100 p-4 text-left font-semibold">{{ 'submissions.columns.dueDate' | transloco }}</th>
+					<td mat-cell *matCellDef="let row" class="p-4 border-t">{{ row.dueDate | date: 'dd/MM/yyyy' }}</td>
+				</ng-container>
+
+				<!-- Actions -->
+				<ng-container matColumnDef="actions">
+					<th mat-header-cell *matHeaderCellDef class="bg-gray-100 p-4 text-center font-semibold">{{ 'common.actions' | transloco }}</th>
+					<td mat-cell *matCellDef="let row" class="p-4 flex gap-2">
+						<button mat-icon-button color="accent" (click)="onRouteDetail('update', row.id)" [matTooltip]="'common.edit' | transloco">
+                            <mat-icon [svgIcon]="'heroicons_outline:badge-check'"></mat-icon>
+                        </button>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+				<tr *ngIf="!tableSource || tableSource.data.length === 0">
+					<td [attr.colspan]="displayedColumns.length" class="p-4 border-t text-center">
+						<div class="flex flex-col items-center justify-center h-48">
+							<mat-icon class="text-gray-300 mb-2" style="font-size: 48px;">info</mat-icon>
+							<p class="text-gray-500">{{ 'common.noDataAvailable' | transloco }}</p>
+						</div>
+					</td>
+				</tr>
+
+			</table>
+		</div>
+
+		<div class="flex justify-end mt-4">
+			<mat-paginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons [length]="totalElements"
+                            [pageIndex]="getValueFiter('pageIndex')" [pageSize]="getValueFiter('pageSize')"
+                            (page)="onChangePage($event)"></mat-paginator>
+		</div>
+	</div>
+</div>

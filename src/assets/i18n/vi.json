@@ -1,0 +1,271 @@
+{
+    "common": {
+        "management": "Quản lý",
+        "all": "Tất cả",
+        "noDataAvailable": "Không có dữ liệu",
+        "selectOption": "Chọn tùy chọn",
+        "actions": "Hành động",
+        "search": "Tìm kiếm",
+        "exportExcel": "Xuất Excel",
+        "importExcel": "Nhập Excel",
+        "importWord": "Nhập Word",
+        "indexes": "Chỉ số",
+        "answers": "Câu trả lời",
+        "categories": "Danh mục",
+        "classes": "Lớp học",
+        "content": "Nội dung",
+        "homeworks": "Bài tập về nhà",
+        "tests": "Bài kiểm tra",
+        "persons": "Người dùng",
+        "questions": "Câu hỏi",
+        "preview": "Xem trước",
+        "add": "Thêm",
+        "edit": "Chỉnh sửa",
+        "clone": "Nhân bản",
+        "delete": "Xóa",
+        "yes": "Có",
+        "no": "Không",
+        "confirm": "Xác nhận",
+        "cancel": "Hủy",
+        "getDetail": "Lấy chi tiết",
+        "detail": "Chi tiết",
+        "save": "Lưu",
+        "createdSuccessfully": "Tạo thành công",
+        "updatedSuccessfully": "Cập nhật thành công",
+        "deletedSuccessfully": "Xóa thành công",
+        "keyword": "Từ khóa",
+        "keywordPlaceholder": "Nhập từ khóa tìm kiếm",
+        "status": "Trạng thái",
+        "createdDate": "Ngày tạo",
+        "updatedDate": "Ngày cập nhật",
+        "invalidRequired": "{{field}} là bắt buộc",
+        "invalidMaxLength": "{{field}} không được vượt quá {{max}} ký tự",
+        "invalidMinLength": "{{field}} phải có ít nhất {{min}} ký tự",
+        "invalidPatern": "{{field}} phải đúng định dạng",
+        "view": "Xem",
+        "addEdit": "Thêm hoặc Chỉnh sửa",
+        "confirmDeletion": "Xác nhận xóa",
+        "areYouSureToDelete": "Bạn có chắc chắn muốn xóa {{field}} {{value}} này không?",
+        "actionFieldSuccessfully": "{{action}} {{field}} thành công",
+        "actionFieldFailed": "{{action}} {{field}} thất bại",
+        "supportedFormats": "Định dạng hỗ trợ: .doc, .docx",
+        "selectFileToUpload": "Vui lòng chọn một tệp để tải lên",
+        "selectValidWordDocument": "Vui lòng chọn một tài liệu Word hợp lệ (.doc hoặc .docx)",
+        "success": "Thành công",
+        "error": "Lỗi",
+        "failure": "Thất bại",
+        "warning": "Cảnh báo",
+        "info": "Thông tin"
+    },
+    "answers": {
+        "field": "câu trả lời",
+        "label": {
+            "answerText": "Nội dung câu trả lời",
+            "questionId": "Câu hỏi",
+            "isCorrect": "Là câu trả lời đúng",
+            "orderIndex": "Thứ tự hiển thị"
+        },
+        "placeholders": {
+            "answerText": "Nhập nội dung câu trả lời",
+            "questionId": "Chọn câu hỏi"
+        },
+        "columns": {
+            "questionText": "Nội dung câu hỏi",
+            "answerText": "Nội dung câu trả lời",
+            "isCorrect": "Là câu trả lời đúng",
+            "orderIndex": "Thứ tự hiển thị",
+            "createdDate": "Ngày tạo"
+        }
+    },
+    "categories": {
+        "field": "danh mục",
+        "label": {
+            "code": "Mã",
+            "name": "Tên",
+            "codeName": "Mã và Tên danh mục",
+            "description": "Mô tả",
+            "shortDescription": "Mô tả ngắn",
+            "parent": "Danh mục cha",
+            "parentId": "Danh mục cha",
+            "level": "Cấp độ"
+        },
+        "placeholders": {
+            "code": "Nhập mã",
+            "name": "Nhập tên",
+            "description": "Nhập mô tả"
+        },
+        "columns": {
+            "id": "ID",
+            "code": "Mã",
+            "name": "Tên",
+            "description": "Mô tả",
+            "shortDescription": "Mô tả ngắn",
+            "parent": "Danh mục cha",
+            "parentId": "Danh mục cha",
+            "level": "Cấp độ",
+            "createdDate": "Ngày tạo"
+        }
+    },
+    "classes": {
+        "field": "lớp học",
+        "label": {
+            "className": "Tên lớp",
+            "classCode": "Mã lớp",
+            "codeName": "Mã và Tên lớp",
+            "teacher": "Giáo viên",
+            "teacherId": "Giáo viên",
+            "academicYear": "Năm học",
+            "description": "Mô tả"
+        },
+        "placeholders": {
+            "academicYear": "Nhập năm học"
+        },
+        "columns": {
+            "id": "ID",
+            "className": "Tên lớp",
+            "classCode": "Mã lớp",
+            "teacherId": "Giáo viên",
+            "academicYear": "Năm học",
+            "createdDate": "Ngày tạo"
+        }
+    },
+    "content": {
+        "field": "nội dung",
+        "label": {
+            "code": "Mã",
+            "name": "Tên",
+            "description": "Mô tả",
+            "shortDescription": "Mô tả ngắn",
+            "contentType": "Loại nội dung",
+            "url": "Đường dẫn URL",
+            "filePath": "Đường dẫn tệp"
+        },
+        "placeholders": {
+            "code": "Nhập mã",
+            "name": "Nhập tên",
+            "description": "Nhập mô tả",
+            "contentType": "Chọn loại nội dung",
+            "url": "Nhập đường dẫn URL",
+            "filePath": "Nhập đường dẫn tệp"
+        },
+        "columns": {
+            "id": "ID",
+            "code": "Mã",
+            "name": "Tên",
+            "description": "Mô tả",
+            "shortDescription": "Mô tả ngắn",
+            "contentType": "Loại nội dung",
+            "url": "Đường dẫn URL",
+            "filePath": "Đường dẫn tệp",
+            "createdDate": "Ngày tạo"
+        }
+    },
+    "homeworks": {
+        "field": "bài tập về nhà",
+        "preview": "Xem trước bài tập",
+        "label": {
+            "title": "Tiêu đề",
+            "description": "Mô tả",
+            "classId": "Lớp học",
+            "class": "Lớp học",
+            "assignedDate": "Ngày giao",
+            "dueDate": "Hạn nộp"
+        },
+        "placeholders": {
+            "title": "Nhập tiêu đề"
+        },
+        "columns": {
+            "title": "Tiêu đề",
+            "description": "Mô tả",
+            "className": "Tên lớp",
+            "assignedDate": "Ngày giao",
+            "dueDate": "Hạn nộp",
+            "createdDate": "Ngày tạo"
+        }
+    },
+    "persons": {
+        "field": "người dùng",
+        "type": {
+            "admin": "Quản trị viên",
+            "teacher": "Giáo viên",
+            "student": "Học sinh",
+            "client": "Khách hàng",
+            "male": "Nam",
+            "female": "Nữ",
+            "unknown": "Không xác định"
+        },
+        "label": {
+            "type": "Loại",
+            "firstName": "Tên",
+            "lastName": "Họ",
+            "displayName": "Họ và tên",
+            "birthDate": "Ngày sinh",
+            "gender": "Giới tính",
+            "phoneNumber": "Số điện thoại",
+            "email": "Email",
+            "class": "Lớp học",
+            "className": "Lớp học",
+            "enrollmentDate": "Ngày nhập học",
+            "hireDate": "Ngày tuyển dụng"
+        },
+        "placeholders": {
+            "keyword": "Nhập họ tên hoặc số điện thoại",
+            "firstName": "Nhập tên",
+            "lastName": "Nhập họ",
+            "birthDate": "Nhập ngày sinh",
+            "phoneNumber": "Nhập số điện thoại",
+            "email": "Nhập email",
+            "enrollmentDate": "Nhập ngày nhập học",
+            "hireDate": "Nhập ngày tuyển dụng"
+        },
+        "columns": {
+            "type": "Loại",
+            "firstName": "Tên",
+            "lastName": "Họ",
+            "displayName": "Họ và tên",
+            "phoneNumber": "Số điện thoại",
+            "email": "Email",
+            "className": "Lớp học",
+            "enrollmentDate": "Ngày nhập học",
+            "hireDate": "Ngày tuyển dụng",
+            "createdDate": "Ngày tạo"
+        }
+    },
+    "questions": {
+        "field": "câu hỏi",
+        "preview": "Xem trước câu hỏi",
+        "studentFillAnswerInto": "(Học sinh điền câu trả lời vào...)",
+        "type": {
+            "essay": "Tự luận",
+            "singleChoice": "Một lựa chọn",
+            "multipleChoice": "Nhiều lựa chọn",
+            "paragraph": "Đoạn văn"
+        },
+        "message": {
+            "atLeastOneCorrectAnswer": "Câu hỏi phải có ít nhất một câu trả lời đúng",
+            "singleChoiceOneCorrect": "Câu hỏi một lựa chọn chỉ được có một câu trả lời đúng",
+            "multipleChoiceFewerCorrect": "Câu hỏi nhiều lựa chọn phải có ít câu trả lời đúng hơn tổng số câu trả lời"
+        },
+        "label": {
+            "questionType": "Loại câu hỏi",
+            "questionText": "Nội dung câu hỏi",
+            "readingPassage": "Đoạn văn đọc",
+            "questionYear": "Năm câu hỏi",
+            "points": "Điểm số"
+        },
+        "placeholders": {
+            "questionType": "Chọn loại câu hỏi",
+            "questionText": "Nhập nội dung câu hỏi",
+            "readingPassage": "Nhập đoạn văn đọc",
+            "questionYear": "Nhập năm câu hỏi",
+            "points": "Nhập điểm số"
+        },
+        "columns": {
+            "questionText": "Nội dung câu hỏi",
+            "questionType": "Loại câu hỏi",
+            "questionYear": "Năm câu hỏi",
+            "points": "Điểm số",
+            "createdDate": "Ngày tạo"
+        }
+    }
+}
