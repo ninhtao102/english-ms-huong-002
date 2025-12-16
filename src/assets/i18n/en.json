@@ -20,6 +20,7 @@
         "persons": "Persons",
         "questions": "Questions",
         "preview": "Preview",
+        "minutes": "minutes",
         "add": "Add",
         "edit": "Edit",
         "clone": "Clone",
@@ -197,7 +198,9 @@
             "dueDateFrom": "Due Date From",
             "dueDateTo": "Due Date To",
             "dueDate": "Due Date",
-            "suggestAnswer": "Suggest Answer"
+            "suggestAnswer": "Suggest Answer",
+            "outDateOnly": "Out Date Only",
+            "backtoHomeworks": "Back To Homeworks"
         },
         "placeholders": {
             "title": "Enter title",
