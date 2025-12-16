@@ -26,28 +26,28 @@
       <div class="py-2 px-8">
         <ol>
           <ng-container *ngFor="let step of detail?.questions; let idx = index; let last = last">
-            <li class="relative group py-6" [class.current-step]="step.order === currentStep">
+            <li class="relative group py-6" [class.current-step]="step.orderIndex === currentStep">
               <ng-container *ngIf="!last">
                 <div class="absolute top-6 left-4 w-0.5 h-full -ml-px"
-                  [ngClass]="{'bg-primary': step.order < currentStep, 'bg-gray-300 dark:bg-gray-600': step.order >= currentStep}">
+                  [ngClass]="{'bg-primary': step.completed, 'bg-gray-300 dark:bg-gray-600': !step.completed}">
                 </div>
               </ng-container>
 
-              <div class="relative flex items-start cursor-pointer" (click)="goToStep(step.order)">
+              <div class="relative flex items-start cursor-pointer" (click)="goToStep(step.orderIndex)">
                 <div class="flex flex-0 items-center justify-center w-8 h-8 rounded-full ring-2 ring-inset ring-transparent bg-card dark:bg-default"
-                  [ngClass]="{'bg-primary dark:bg-primary text-on-primary group-hover:bg-primary-800': step.order < currentStep,
-                              'ring-primary': step.order === currentStep,
-                              'ring-gray-300 dark:ring-gray-600 group-hover:ring-gray-400': step.order > currentStep}">
-                  <ng-container *ngIf="step.order < currentStep">
+                  [ngClass]="{'bg-primary dark:bg-primary text-on-primary group-hover:bg-primary-800': step.completed,
+                              'ring-primary': step.orderIndex === currentStep && !step.completed,
+                              'ring-gray-300 dark:ring-gray-600 group-hover:ring-gray-400': step.orderIndex != currentStep && !step.completed}">
+                  <ng-container *ngIf="step.completed">
                     <mat-icon class="icon-size-5 text-current" [svgIcon]="'heroicons_solid:check'"></mat-icon>
                   </ng-container>
 
-                  <ng-container *ngIf="step.order === currentStep">
-                    <div class="text-md font-semibold text-primary dark:text-primary-500">{{ step.order + 1 }}</div>
+                  <ng-container *ngIf="step.orderIndex === currentStep">
+                    <div class="text-md font-semibold text-primary dark:text-primary-500">{{ step.orderIndex + 1 }}</div>
                   </ng-container>
 
-                  <ng-container *ngIf="step.order > currentStep">
-                    <div class="text-md font-semibold text-hint group-hover:text-secondary">{{ step.order + 1 }}</div>
+                  <ng-container *ngIf="step.orderIndex != currentStep && !step.completed">
+                    <div class="text-md font-semibold text-hint group-hover:text-secondary">{{ step.orderIndex + 1 }}</div>
                   </ng-container>
                 </div>
 
@@ -80,17 +80,20 @@
       <!-- Main -->
       <div class="flex-auto overflow-y-auto" cdkScrollable>
         <!-- Steps -->
-        <mat-tab-group class="fuse-mat-no-header" [animationDuration]="'200'" #courseSteps>
+        <mat-tab-group class="fuse-mat-no-header" [animationDuration]="'200'" #homeworkSteps>
           <ng-container *ngFor="let question of detail?.questions">
             <mat-tab>
               <ng-template matTabContent>
-                <div class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card">
+                <div class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card"
+                  style="min-height: 70vh;">
                   <!-- Title & Reading passage -->
                   <div class="flex flex-wrap font-bold" *ngIf="question?.questionText" [innerHTML]="question?.questionText | dotPatternReplace"></div>
                   <div class="readingPassage flex flex-wrap" *ngIf="question?.readingPassage" [innerHTML]="question?.readingPassage | dotPatternReplace"></div>
 
                   <!-- Essay -->
                   <ng-container *ngIf="question?.questionType === 6">
+                    <hr class="w-full border-b border-dashed my-6 mb-0">
+                    <hr class="w-full border-b border-dashed my-6 mb-0">
                     <hr class="w-full border-b border-dashed my-6 mb-0">
                     <hr class="w-full border-b border-dashed my-6 mb-0">
                     <hr class="w-full border-b border-dashed my-6 mb-0">

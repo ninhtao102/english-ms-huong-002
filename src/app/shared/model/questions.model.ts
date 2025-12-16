@@ -1,4 +1,4 @@
-import { AnswersDto } from "./answers.model";
+import { AnswersDto, answerSubmitsDto } from "./answers.model";
 
 export interface QuestionsDto {
     id?: number;
@@ -14,6 +14,8 @@ export interface QuestionsDto {
     // photo?: File;
     answers?: AnswersDto[];
     answerDtos?: AnswersDto[];
+    answerSubmits?: answerSubmitsDto[];
+    completed: number;
 }
 
 export interface QuestionsSearch {

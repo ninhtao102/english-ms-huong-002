@@ -6,6 +6,14 @@ export interface AnswersDto {
     orderIndex?: number;
 }
 
+export interface answerSubmitsDto {
+    id?: number;
+    homeworkAssignmentId?: number;
+    homeworkSubmissionId?: number;
+    studentAnswer?: string;
+    answerId?: number;
+}
+
 export interface AnswersSearch {
     answerText?: string;
     questionId?: number;

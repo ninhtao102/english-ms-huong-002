@@ -13,6 +13,10 @@ import { ClassesService } from '@shared/service/classes.service';
 import { HomeworkAssignmentService } from '@shared/service/homework-assignment.service';
 import { QuestionsService } from '@shared/service/questions.service';
 import { AnswersService } from '@shared/service/answers.service';
+import { HomeworkSubmissionService } from '@shared/service/homework-submission.service';
+import { HomeworkService } from '@shared/service/homework.service';
+import { PersonsDto } from '@shared/model/persons.model';
+import { UserService } from '@app/core/user/user.service';
 
 @Component({
     selector: 'app-homeworks-detail',
@@ -21,19 +25,15 @@ import { AnswersService } from '@shared/service/answers.service';
 })
 export class HomeworksDetailComponent implements OnInit, AfterViewInit {
 
-    @ViewChild('courseSteps', { static: true }) courseSteps: MatTabGroup;
-    categories: any[];
-    course: any;
+    @ViewChild('homeworkSteps', { static: true }) homeworkSteps: MatTabGroup;
     currentStep: number = 0;
     drawerMode: 'over' | 'side' = 'side';
     drawerOpened: boolean = true;
     // private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-
-    homework: HomeworksDto;
-
+    currentUser: any;
     id: number | null = null;
-    detail: any = null;
+    detail: HomeworksDto = null;
     titlePage: string = '';
     readonly: boolean = false;
     photo: File | null = null;
@@ -44,8 +44,11 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
         private cdr: ChangeDetectorRef,
         private dialog: MatDialog,
         private form: FormBuilder,
+        private _userService: UserService,
         private classesService: ClassesService,
+        private homeworkService: HomeworkService,
         private homeworkAssignmentService: HomeworkAssignmentService,
+        private homeworkSubmissionService: HomeworkSubmissionService,
         private questionsService: QuestionsService,
         private answersService: AnswersService,
         private toast: ToastMessageService,
@@ -53,8 +56,8 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
         private route: ActivatedRoute,
         private router: Router,
     ) {
+        this.currentUser = this._userService.currentUser;
         const detailId = this.route.snapshot.paramMap.get('id');
-        console.log("🚀 ~ HomeworksDetailComponent ~ constructor ~ detailId:", detailId)
         this.id = (detailId && detailId !== '0') ? +detailId : null;
         this.getListQuestions();
         this.getListClasses();
@@ -105,11 +108,11 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
             return;
         }
 
-        this.homeworkAssignmentService.get(id).subscribe({
+        this.homeworkService.getDetail(id, this.currentUser.username).subscribe({
             next: (response: any) => {
                 if (response.code === RESPONSE_CODE_SUCCESS) {
                     this.detail = response.body;
-                    
+
                     this.cdr.detectChanges();
                 }
             },
@@ -127,26 +130,22 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
     onSave(): void {
     }
 
-    getClassName(classId: number): string {
-        const foundClass = this.listClasses.find(cls => cls.id === classId);
-        return foundClass ? foundClass.className : '';
+    goToStep(questionIndex: number): void {
+        this.currentStep = questionIndex;
+        this.homeworkSteps.selectedIndex = this.currentStep;
     }
-
-
-
-
 
     goToPreviousQuestion(): void {
         if (this.currentStep > 0) {
             this.currentStep--;
-            this.courseSteps.selectedIndex = this.currentStep;
+            this.homeworkSteps.selectedIndex = this.currentStep;
         }
     }
 
     goToNextQuestion(): void {
-        if (this.currentStep < this.course.steps.length - 1) {
+        if (this.currentStep < this.detail?.questions.length - 1) {
             this.currentStep++;
-            this.courseSteps.selectedIndex = this.currentStep;
+            this.homeworkSteps.selectedIndex = this.currentStep;
         }
     }
 

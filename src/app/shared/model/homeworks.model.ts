@@ -9,8 +9,7 @@ export interface HomeworksDto {
     assignedDate?: string;
     dueDate?: string;
     questions: QuestionsDto[];
-
-    duration?: number;
+    totalSteps: number
     progress: HomeworkProgressDto;
 }
 
