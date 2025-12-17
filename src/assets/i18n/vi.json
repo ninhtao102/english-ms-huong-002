@@ -160,8 +160,28 @@
             "createdDate": "Ngày tạo"
         }
     },
+    "dashboard": {
+        "summary": "Tổng quan",
+        "overDue": "Quá hạn",
+        "nearOverDue": "Gần quá hạn",
+        "open": "Đang mở",
+        "features": "Tính năng",
+        "completed": "Đã hoàn thành",
+        "students": "Học sinh",
+        "classes": "Lớp học",
+        "fromYesterday": "Từ hôm qua",
+        "fromLastWeek": "Từ tuần trước",
+        "fromLastMonth": "Từ tháng trước",
+        "closedToday": "Đóng hôm nay",
+        "homeworks": "Bài tập về nhà",
+        "dueHomeworks": "Bài tập sắp đến hạn",
+        "overDueHomeworks": "Bài tập quá hạn",
+        "nearOverDueHomeworks": "Bài tập gần quá hạn"
+    },
     "homeworks": {
         "field": "bài tập về nhà",
+        "questionField": "câu hỏi bài tập",
+        "answerField": "câu trả lời bài tập",
         "preview": "Xem trước bài tập",
         "label": {
             "title": "Tiêu đề",
@@ -169,10 +189,22 @@
             "classId": "Lớp học",
             "class": "Lớp học",
             "assignedDate": "Ngày giao",
-            "dueDate": "Hạn nộp"
+            "assignedDateFrom": "Ngày giao từ",
+            "assignedDateTo": "Ngày giao đến",
+            "dueDateFrom": "Hạn nộp từ",
+            "dueDateTo": "Hạn nộp đến",
+            "dueDate": "Hạn nộp",
+            "suggestAnswer": "Gợi ý câu trả lời",
+            "outDateOnly": "Chỉ quá hạn",
+            "backtoHomeworks": "Quay lại Bài tập"
         },
         "placeholders": {
-            "title": "Nhập tiêu đề"
+            "title": "Nhập tiêu đề",
+            "assignedDateFrom": "Nhập ngày giao từ",
+            "assignedDateTo": "Nhập ngày giao đến",
+            "dueDateFrom": "Nhập hạn nộp từ",
+            "dueDateTo": "Nhập hạn nộp đến",
+            "suggestAnswer": "Nhập gợi ý câu trả lời"
         },
         "columns": {
             "title": "Tiêu đề",
@@ -236,10 +268,12 @@
         "preview": "Xem trước câu hỏi",
         "studentFillAnswerInto": "(Học sinh điền câu trả lời vào...)",
         "type": {
-            "essay": "Tự luận",
             "singleChoice": "Một lựa chọn",
             "multipleChoice": "Nhiều lựa chọn",
-            "paragraph": "Đoạn văn"
+            "reading": "Đọc hiểu",
+            "fillBlanks": "Điền vào chỗ trống",
+            "rewrite": "Viết lại câu",
+            "essay": "Tự luận"
         },
         "message": {
             "atLeastOneCorrectAnswer": "Câu hỏi phải có ít nhất một câu trả lời đúng",
@@ -251,20 +285,51 @@
             "questionText": "Nội dung câu hỏi",
             "readingPassage": "Đoạn văn đọc",
             "questionYear": "Năm câu hỏi",
-            "points": "Điểm số"
+            "points": "Điểm số",
+            "suggestAnswer": "Gợi ý câu trả lời",
+            "listAnswer": "Danh sách câu trả lời"
         },
         "placeholders": {
             "questionType": "Chọn loại câu hỏi",
             "questionText": "Nhập nội dung câu hỏi",
             "readingPassage": "Nhập đoạn văn đọc",
             "questionYear": "Nhập năm câu hỏi",
-            "points": "Nhập điểm số"
+            "points": "Nhập điểm số",
+            "suggestAnswer": "Nhập gợi ý câu trả lời"
         },
         "columns": {
             "questionText": "Nội dung câu hỏi",
             "questionType": "Loại câu hỏi",
             "questionYear": "Năm câu hỏi",
             "points": "Điểm số",
+            "createdDate": "Ngày tạo"
+        }
+    },
+    "submissions": {
+        "field": "bài nộp",
+        "label": {
+            "homeworkId": "Bài tập",
+            "homeworkTitle": "Tiêu đề bài tập",
+            "studentId": "Học sinh",
+            "studentName": "Tên học sinh",
+            "submissionDate": "Ngày nộp",
+            "content": "Nội dung",
+            "grade": "Điểm",
+            "feedback": "Nhận xét"
+        },
+        "placeholders": {
+            "homeworkId": "Chọn bài tập",
+            "studentId": "Chọn học sinh",
+            "submissionDate": "Nhập ngày nộp",
+            "content": "Nhập nội dung",
+            "grade": "Nhập điểm",
+            "feedback": "Nhập nhận xét"
+        },
+        "columns": {
+            "homeworkTitle": "Tiêu đề bài tập",
+            "studentName": "Tên học sinh",
+            "submissionDate": "Ngày nộp",
+            "grade": "Điểm",
             "createdDate": "Ngày tạo"
         }
     }

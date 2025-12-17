@@ -27,6 +27,7 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
 
     @ViewChild('homeworkSteps', { static: true }) homeworkSteps: MatTabGroup;
     currentStep: number = 0;
+    countCompleted: number = 0;
     drawerMode: 'over' | 'side' = 'side';
     drawerOpened: boolean = true;
     // private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -112,7 +113,18 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
             next: (response: any) => {
                 if (response.code === RESPONSE_CODE_SUCCESS) {
                     this.detail = response.body;
-
+                    this.detail.questions.forEach((question) => {
+                        if (question.questionType === 0 && question.questions) {
+                            question.questions.forEach((childQuestion) => {
+                                // Get fill blank answers
+                                if (childQuestion.questionType === 4) {
+                                    childQuestion.studentAnswer = childQuestion.questionText.toUpperCase()
+                                        .replace(/\.{3,}|_{3,}/g, '                      ')  // Replace ... or ___ with blanks');
+                                }
+                            });
+                        }
+                    });
+                    console.log("🚀 ~ HomeworksDetailComponent ~ getDetail ~ this.detail:", this.detail)
                     this.cdr.detectChanges();
                 }
             },
@@ -127,12 +139,17 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/homeworks']);
     }
 
-    onSave(): void {
+    onSave(type: 0 | 1 = 0): void {
+        if (!this.detail) {
+            return;
+        }
+
     }
 
     goToStep(questionIndex: number): void {
         this.currentStep = questionIndex;
         this.homeworkSteps.selectedIndex = this.currentStep;
+        this.countCompleted = this.detail?.questions.filter(q => q.completed).length || 0;
     }
 
     goToPreviousQuestion(): void {
@@ -140,6 +157,7 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
             this.currentStep--;
             this.homeworkSteps.selectedIndex = this.currentStep;
         }
+        this.countCompleted = this.detail?.questions.filter(q => q.completed).length || 0;
     }
 
     goToNextQuestion(): void {
@@ -147,6 +165,33 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
             this.currentStep++;
             this.homeworkSteps.selectedIndex = this.currentStep;
         }
+        this.countCompleted = this.detail?.questions.filter(q => q.completed).length || 0;
+    }
+
+    onBlurInputAnswer(parent: QuestionsDto, question: QuestionsDto, studentAnswer: string): void {
+        question.studentAnswer = studentAnswer;
+        if (question.questionType === 4 && studentAnswer.toLowerCase() === question.questionText.toLowerCase().replace(/\.{3,}|_{3,}/g, '                      ')) {
+            question.completed = 0;
+            return;
+        }
+        question.completed = studentAnswer && studentAnswer.trim() !== '' ? 1 : 0;
+        this.onFillCompleted(parent);
+        this.cdr.detectChanges();
+    }
+
+    onChooseAnswer(parent: QuestionsDto, question: QuestionsDto, answerId: number): void {
+        question.answerId = answerId;
+        question.completed = 1;
+        this.onFillCompleted(parent);
+        this.cdr.detectChanges();
+    }
+
+    onFillCompleted(parent: QuestionsDto): void {
+        const questions = parent.questions || [];
+        const result = questions.every(q => q.completed);
+        parent.completed = result ? 1 : 0;
+        this.countCompleted = this.detail?.questions.filter(q => q.completed).length || 0;
+        this.cdr.detectChanges();
     }
 
 }

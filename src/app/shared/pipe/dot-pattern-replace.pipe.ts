@@ -14,7 +14,7 @@ export class DotPatternReplacePipe implements PipeTransform {
         processedText = processedText.replace(/\.{3,}/g, '<hr class="w-16 border-b border-dashed mt-5 mb-0">');
 
         // Case 2: Replace "___" (three or more underscores) with HR element
-        // processedText = processedText.replace(/_{3,}/g, '<hr class="w-16 border-b border-dashed mt-5 mb-0">');
+        processedText = processedText.replace(/_{3,}/g, '<hr class="w-16 border-b border-dashed mt-5 mb-0">');
 
         // Case 3: Replace newline characters with <br> tags
         processedText = processedText.replace(/\n/g, '<br>');

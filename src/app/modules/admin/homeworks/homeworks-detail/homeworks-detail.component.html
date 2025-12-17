@@ -42,7 +42,7 @@
                     <mat-icon class="icon-size-5 text-current" [svgIcon]="'heroicons_solid:check'"></mat-icon>
                   </ng-container>
 
-                  <ng-container *ngIf="step.orderIndex === currentStep">
+                  <ng-container *ngIf="step.orderIndex === currentStep && !step.completed">
                     <div class="text-md font-semibold text-primary dark:text-primary-500">{{ step.orderIndex + 1 }}</div>
                   </ng-container>
 
@@ -75,7 +75,7 @@
           {{ detail?.title }}
         </h2>
       </div>
-      <mat-progress-bar class="hidden lg:block flex-0 h-0.5 w-full" [value]="100 * (currentStep + 1) / detail?.totalSteps"></mat-progress-bar>
+      <mat-progress-bar class="hidden lg:block flex-0 h-0.5 w-full" [value]="100 * countCompleted / detail?.totalSteps"></mat-progress-bar>
 
       <!-- Main -->
       <div class="flex-auto overflow-y-auto" cdkScrollable>
@@ -87,52 +87,51 @@
                 <div class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card"
                   style="min-height: 70vh;">
                   <!-- Title & Reading passage -->
-                  <div class="flex flex-wrap font-bold" *ngIf="question?.questionText" [innerHTML]="question?.questionText | dotPatternReplace"></div>
-                  <div class="readingPassage flex flex-wrap" *ngIf="question?.readingPassage" [innerHTML]="question?.readingPassage | dotPatternReplace"></div>
+                  <div class="mb-3 flex flex-wrap font-bold" *ngIf="question?.questionText" [innerHTML]="question?.questionText | dotPatternReplace"></div>
+                  <div class="mb-3 readingPassage flex flex-wrap" *ngIf="question?.readingPassage" [innerHTML]="question?.readingPassage | dotPatternReplace"></div>
 
                   <!-- Essay -->
                   <ng-container *ngIf="question?.questionType === 6">
-                    <hr class="w-full border-b border-dashed my-6 mb-0">
-                    <hr class="w-full border-b border-dashed my-6 mb-0">
-                    <hr class="w-full border-b border-dashed my-6 mb-0">
-                    <hr class="w-full border-b border-dashed my-6 mb-0">
-                    <hr class="w-full border-b border-dashed my-6 mb-0">
+                    <textarea class="w-full p-2 rounded border border-primary" name="essayAnswer" id="essayAnswer"
+                        [(ngModel)]="question.studentAnswer" (blur)="onBlurInputAnswer(question, question, question.studentAnswer)" rows="10"></textarea>
                   </ng-container>
 
                   <!-- Child question -->
                   <ng-container *ngFor="let child of question?.questions; let i = index">
-                    <div class="flex flex-wrap font-semibold">
+                    <div class="mb-3 flex flex-wrap font-semibold">
                       <span *ngIf="child.questionType !== 0" class="">Question {{ i + 1 }}:&nbsp;</span>
                       <div class="questionText flex flex-wrap gap-1" *ngIf="child?.questionText" [innerHTML]="child?.questionText | dotPatternReplace"></div>
                     </div>
 
-                    <div class="readingPassage flex flex-wrap" *ngIf="child?.readingPassage" [innerHTML]="child?.readingPassage | dotPatternReplace"></div>
+                    <div class="mb-3 readingPassage flex flex-wrap" *ngIf="child?.readingPassage" [innerHTML]="child?.readingPassage | dotPatternReplace"></div>
 
                     <!-- Rewrite -->
                     <ng-container *ngIf="child?.questionType === 5">
                       <div class="w-full flex flex-wrap gap-1">
                         &rarr;
                         <div class="" [innerHTML]="child?.suggestAnswer | dotPatternReplace"></div>
-                        <hr class="w-1/2 border-b border-dashed my-6 mb-0">
+                        <input type="text" class="flex-auto border-b border-gray-300 focus:border-primary outline-none"
+                          [(ngModel)]="child.studentAnswer" (blur)="onBlurInputAnswer(question, child, child.studentAnswer)" />
                       </div>
                     </ng-container>
 
                     <!-- Fill in the blank -->
                     <ng-container *ngIf="child?.questionType === 4">
                       <div class="w-full flex flex-wrap gap-1">
-                        <div class="" [innerHTML]="child?.suggestAnswer | dotPatternReplace"></div>
+                        <input type="text" class="flex-auto border-b border-gray-300 focus:border-primary outline-none"
+                          [(ngModel)]="child.studentAnswer" (blur)="onBlurInputAnswer(question, child, child.studentAnswer)" />
                       </div>
                     </ng-container>
 
                     <!-- Single choice, multiple choice, reading comprehension -->
                     <ng-container *ngIf="child?.questionType > 0 && child?.questionType < 4">
-                      <div class="flex flex-wrap flex-row gap-2" *ngFor="let answer of child?.answerDtos">
-                        <ng-container *ngIf="!answer.isCorrect">
+                      <div class="flex flex-wrap flex-row gap-2" *ngFor="let answer of child?.answers" (click)="onChooseAnswer(question, child, answer.id)">
+                        <ng-container *ngIf="child.answerId !== answer.id">
                           <div class="flex items-center justify-center w-5 h-5">
                             <div class="w-4 h-4 rounded-full border-2"></div>
                           </div>
                         </ng-container>
-                        <ng-container *ngIf="answer?.isCorrect">
+                        <ng-container *ngIf="child.answerId === answer.id">
                           <mat-icon class="text-hint icon-size-5" [svgIcon]="'heroicons_solid:check-circle'"></mat-icon>
                         </ng-container>
                         <div class="answerText ml-1.5 leading-5">
@@ -148,7 +147,7 @@
         </mat-tab-group>
 
         <!-- Navigation - Desktop -->
-        <div class="z-10 sticky hidden lg:flex bottom-4 p-4">
+        <div class="z-10 sticky hidden lg:flex lg:justify-between bottom-4 p-4">
           <div class="flex items-center justify-center mx-auto p-2 rounded-full shadow-lg bg-primary">
             <button class="flex-0" mat-flat-button [color]="'primary'" (click)="goToPreviousQuestion()">
               <mat-icon class="mr-2" [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
@@ -166,6 +165,18 @@
               <mat-icon class="ml-2" [svgIcon]="'heroicons_outline:arrow-narrow-right'"></mat-icon>
             </button>
           </div>
+
+          <div class="flex items-center justify-center gap-4 mx-auto p-2 rounded-full shadow-lg border border-primary bg-card">
+            <button mat-stroked-button [color]="'primary'" (click)="onSave(0)">
+              <mat-icon class="icon-size-5 mr-2" [color]="'primary'" [svgIcon]="'heroicons_outline:document-add'"></mat-icon>
+              <span class="text-primary">{{ 'common.draft' | transloco }}</span>
+            </button>
+
+            <button mat-flat-button [color]="'primary'" (click)="onSave(1)">
+              <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:inbox-in'"></mat-icon>
+              <span>{{ 'common.save' | transloco }}</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -180,12 +191,19 @@
           <span>{{ detail?.totalSteps }}</span>
         </div>
 
-        <mat-progress-bar class="flex-auto ml-6 rounded-full" [value]="100 * (currentStep + 1) / detail?.totalSteps"></mat-progress-bar>
+        <mat-progress-bar class="flex-auto ml-6 rounded-full" [value]="100 * countCompleted / detail?.totalSteps"></mat-progress-bar>
         <button class="ml-4" mat-icon-button (click)="goToPreviousQuestion()">
           <mat-icon [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
         </button>
         <button class="ml-0.5" mat-icon-button (click)="goToNextQuestion()">
           <mat-icon [svgIcon]="'heroicons_outline:arrow-narrow-right'"></mat-icon>
+        </button>
+        &nbsp;&nbsp;
+        <button mat-icon-button color="primary" (click)="onSave(0)">
+          <mat-icon [svgIcon]="'heroicons_outline:document-add'"></mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="onSave(1)">
+          <mat-icon [svgIcon]="'heroicons_solid:inbox-in'"></mat-icon>
         </button>
       </div>
     </mat-drawer-content>

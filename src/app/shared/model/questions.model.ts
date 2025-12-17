@@ -11,10 +11,12 @@ export interface QuestionsDto {
     questionYear?: number;
     points?: number;
     photoUrl?: string;
+    studentAnswer?: string;
+    answerId?: number;
+    questions?: QuestionsDto[];
     // photo?: File;
     answers?: AnswersDto[];
     answerDtos?: AnswersDto[];
-    answerSubmits?: answerSubmitsDto[];
     completed: number;
 }
 
