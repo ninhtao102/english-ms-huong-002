@@ -1,22 +1,18 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '@app/core/user/user.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { ToastMessageService } from '@shared/base-service/toast-message.service';
-import { RESPONSE_CODE_SUCCESS } from '@utils/constants/common';
-import { MatTabGroup } from '@angular/material/tabs';
-import { HomeworksDto } from '@shared/model/homeworks.model';
 import { ClassesDto } from '@shared/model/classes.model';
+import { HomeworksDto } from '@shared/model/homeworks.model';
+import { PersonsDto } from '@shared/model/persons.model';
 import { QuestionsDto } from '@shared/model/questions.model';
 import { ClassesService } from '@shared/service/classes.service';
-import { HomeworkAssignmentService } from '@shared/service/homework-assignment.service';
-import { QuestionsService } from '@shared/service/questions.service';
-import { AnswersService } from '@shared/service/answers.service';
-import { HomeworkSubmissionService } from '@shared/service/homework-submission.service';
 import { HomeworkService } from '@shared/service/homework.service';
-import { PersonsDto } from '@shared/model/persons.model';
-import { UserService } from '@app/core/user/user.service';
+import { PersonsService } from '@shared/service/persons.service';
+import { QuestionsService } from '@shared/service/questions.service';
+import { RESPONSE_CODE_SUCCESS } from '@utils/constants/common';
 
 @Component({
     selector: 'app-homeworks-detail',
@@ -32,7 +28,7 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
     drawerOpened: boolean = true;
     // private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    currentUser: any;
+    person: PersonsDto = null;
     id: number | null = null;
     detail: HomeworksDto = null;
     titlePage: string = '';
@@ -43,21 +39,21 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
 
     constructor(
         private cdr: ChangeDetectorRef,
-        private dialog: MatDialog,
-        private form: FormBuilder,
         private _userService: UserService,
         private classesService: ClassesService,
         private homeworkService: HomeworkService,
-        private homeworkAssignmentService: HomeworkAssignmentService,
-        private homeworkSubmissionService: HomeworkSubmissionService,
         private questionsService: QuestionsService,
-        private answersService: AnswersService,
+        private personsService: PersonsService,
         private toast: ToastMessageService,
         private transloco: TranslocoService,
         private route: ActivatedRoute,
         private router: Router,
     ) {
-        this.currentUser = this._userService.currentUser;
+        const currentUser = this._userService.currentUser;
+        if (currentUser) {
+            this.getPersonByUsername(currentUser.username);
+        }
+        console.log("🚀 ~ HomeworksDetailComponent ~ constructor ~ currentUser:", currentUser)
         const detailId = this.route.snapshot.paramMap.get('id');
         this.id = (detailId && detailId !== '0') ? +detailId : null;
         this.getListQuestions();
@@ -65,9 +61,6 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        if (this.id) {
-            this.getDetail(this.id);
-        }
     }
 
     ngAfterViewInit(): void {
@@ -104,12 +97,28 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
         });
     }
 
+    getPersonByUsername(username: string): void {
+        this.personsService.getByUsername(username).subscribe({
+            next: (response: any) => {
+                if (response.code === RESPONSE_CODE_SUCCESS) {
+                    this.person = response.body;
+                    this.getDetail(this.id);
+                    this.cdr.detectChanges();
+                }
+            },
+            error: (err) => {
+                console.error('Get person failed:', err);
+                this.toast.actionFailed('common.get', 'persons.field', err.message);
+            }
+        });
+    }
+
     getDetail(id: number): void {
         if (!id) {
             return;
         }
 
-        this.homeworkService.getDetail(id, this.currentUser.username).subscribe({
+        this.homeworkService.getDetail(id, this.person.id).subscribe({
             next: (response: any) => {
                 if (response.code === RESPONSE_CODE_SUCCESS) {
                     this.detail = response.body;
@@ -124,7 +133,6 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
                             });
                         }
                     });
-                    console.log("🚀 ~ HomeworksDetailComponent ~ getDetail ~ this.detail:", this.detail)
                     this.cdr.detectChanges();
                 }
             },
@@ -144,6 +152,28 @@ export class HomeworksDetailComponent implements OnInit, AfterViewInit {
             return;
         }
 
+        if (type === 1) {
+            this.detail.status = 2;
+        } else {
+            this.detail.status = 1;
+        }
+        if (this.person) {
+            this.detail.studentId = this.person.id;
+            this.detail.studentName = this.person.displayName;
+        }
+
+        this.homeworkService.save(this.detail).subscribe({
+            next: (response: any) => {
+                if (response.code === RESPONSE_CODE_SUCCESS) {
+                    this.toast.actionSuccess('common.save', 'submitField.field');
+                    this.onBack();
+                }
+            },
+            error: (err) => {
+                console.error('Save failed:', err);
+                this.toast.actionFailed('common.save', 'submitField.field', err.message);
+            }
+        });
     }
 
     goToStep(questionIndex: number): void {

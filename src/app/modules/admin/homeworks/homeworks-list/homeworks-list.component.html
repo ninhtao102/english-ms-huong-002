@@ -16,7 +16,7 @@
 				What do you want to learn today?
 			</div>
 			<div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-secondary">
-				Our courses will step	you through the process of a building	small applications, 
+				Our courses will step	you through the process of a building	small applications,
 				or	adding new features to	existing applications.
 			</div>
 		</div>
@@ -41,7 +41,7 @@
 					<input formControlName="classId" (keyup.enter)="searchHandler()" [placeholder]="'homeworks.placeholders.title' | transloco" matInput>
 				</mat-form-field>
 
-				<mat-slide-toggle class="mt-8 sm:mt-0 sm:ml-auto" [color]="'primary'" 
+				<mat-slide-toggle class="mt-8 sm:mt-0 sm:ml-auto" [color]="'primary'"
 				(change)="toggleOutDate($event)">{{ 'homeworks.label.outDateOnly' | transloco }}
 				</mat-slide-toggle>
 			</form>
@@ -78,11 +78,11 @@
 								<div class="flex items-center mt-2 leading-5 text-md text-secondary">
 									<mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:academic-cap'"></mat-icon>
 									<ng-container *ngIf="homework.progress.completed === 0">
-										<div class="ml-1.5"> Never completed </div>
+										<div class="ml-1.5"> Never practived </div>
 									</ng-container>
 									<ng-container *ngIf="homework.progress.completed > 0">
 										<div class="ml-1.5">
-											<span>Completed</span>
+											<span>Practived</span>
 											<span class="ml-1">
 												<!-- Once -->
 												<ng-container *ngIf="homework.progress.completed === 1">once</ng-container>
@@ -117,15 +117,14 @@
 										<span class="inline-flex items-center">
 											<!-- Not started -->
 											<ng-container *ngIf="homework.progress.currentStep === 0">
-												<!-- Never completed -->
+												<!-- Never practived -->
 												<ng-container *ngIf="homework.progress.completed === 0">
 													<span>Start</span>
 												</ng-container>
 
-												<!-- Completed before -->
+												<!-- Practived before -->
 												<ng-container *ngIf="homework.progress.completed > 0">
-													<span>Start
-														again</span>
+													<span>Start again</span>
 												</ng-container>
 											</ng-container>
 

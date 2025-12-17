@@ -1,6 +1,10 @@
 import { QuestionsDto } from "./questions.model";
 
 export interface HomeworksDto {
+    homeworkAssignmentId?: number;
+    studentId?: number;
+    studentName?: string;
+
     id?: number;
     title?: string;
     description?: string;
@@ -8,9 +12,11 @@ export interface HomeworksDto {
     className?: string;
     assignedDate?: string;
     dueDate?: string;
+    submittedAt?: string;
     questions: QuestionsDto[];
     totalSteps: number
     progress: HomeworkProgressDto;
+    status?: number;
 }
 
 export interface HomeworkProgressDto {

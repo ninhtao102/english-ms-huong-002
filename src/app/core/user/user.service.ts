@@ -53,26 +53,6 @@ export class UserService extends BaseService {
             tap((response: BaseResponse<any>) => {
                 this.currentUser = { ...response.body, name: response.body.displayName, avatar: response.body.photoUrl };
 
-                // "body": {
-                //     "username": "admin",
-                //     "gender": null,
-                //     "email": "nuclearshop123@gmail.com",
-                //     "roles": [
-                //         "ADMIN"
-                //     ],
-                //     "displayName": "admin",
-                //     "photoUrl": null
-                // },
-
-                // export interface User
-                // {
-                //     id: string;
-                //     name: string;
-                //     email: string;
-                //     avatar?: string;
-                //     status?: string;
-                // }
-
                 // if typed user is available, push to subject
                 try {
                     this._user.next(this.currentUser as User);

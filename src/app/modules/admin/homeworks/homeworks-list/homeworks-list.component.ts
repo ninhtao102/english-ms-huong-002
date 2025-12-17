@@ -3,13 +3,17 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { UserService } from '@app/core/user/user.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { BaseListComponent } from '@shared/base-list/base-list.component';
 import { ToastMessageService } from '@shared/base-service/toast-message.service';
 import { ClassesDto } from '@shared/model/classes.model';
 import { HomeworksDto, LIST_QUESTION_TYPES } from '@shared/model/homeworks.model';
+import { PersonsDto } from '@shared/model/persons.model';
 import { ClassesService } from '@shared/service/classes.service';
-import { HomeworkAssignmentService } from '@shared/service/homework-assignment.service';
+import { HomeworkService } from '@shared/service/homework.service';
+import { PersonsService } from '@shared/service/persons.service';
+import { RESPONSE_CODE_SUCCESS } from '@utils/constants/common';
 
 
 @Component({
@@ -19,6 +23,7 @@ import { HomeworkAssignmentService } from '@shared/service/homework-assignment.s
 })
 export class HomeworksListComponent extends BaseListComponent implements OnInit {
 
+    person: PersonsDto = null;
     homeworks: HomeworksDto[] = [];
     questionTypeOptions = LIST_QUESTION_TYPES;
     listClasses: ClassesDto[] = [];
@@ -27,17 +32,25 @@ export class HomeworksListComponent extends BaseListComponent implements OnInit 
         private cdr: ChangeDetectorRef,
         private form: FormBuilder,
         private dialog: MatDialog,
-        private homeworkAssignmentService: HomeworkAssignmentService,
+        private _userService: UserService,
+        private personsService: PersonsService,
+        private homeworkService: HomeworkService,
         private classesService: ClassesService,
         private toast: ToastMessageService,
         private transloco: TranslocoService,
         private router: Router,
     ) {
         super();
+        const currentUser = this._userService.currentUser;
+        if (currentUser) {
+            this.getPersonByUsername(currentUser.username);
+        }
         this.filter = this.form.group({
+            studentId: [''],
             classId: [''],
             title: [''],
-            isOutDate: [false],
+            submitted: [false],
+            onlyOutDate: [false],
             pageIndex: [0],
             pageSize: [30],
         });
@@ -47,7 +60,23 @@ export class HomeworksListComponent extends BaseListComponent implements OnInit 
     ngOnInit(): void {
         this.basePath = '/homeworks';
         this.tableSource = new MatTableDataSource([]);
-        this.searchHandler();
+    }
+
+    getPersonByUsername(username): void {
+        this.personsService.getByUsername(username).subscribe({
+            next: (response: any) => {
+                if (response.code === RESPONSE_CODE_SUCCESS) {
+                    this.person = response.body;
+                    this.filter.patchValue({ studentId: this.person.id });
+                    this.searchHandler();
+                    this.cdr.detectChanges();
+                }
+            },
+            error: (err) => {
+                console.error('Get person failed:', err);
+                this.toast.actionFailed('common.get', 'persons.field', err.message);
+            }
+        });
     }
 
     getClasses(): void {
@@ -67,11 +96,10 @@ export class HomeworksListComponent extends BaseListComponent implements OnInit 
 
     searchHandler(): void {
         const searchParams = this.filter.value;
-        this.homeworkAssignmentService.search(searchParams).subscribe({
+        this.homeworkService.search(searchParams).subscribe({
             next: (response: any) => {
-                if (response.body && Array.isArray(response.body.content)) {
-                    // eslint-disable-next-line max-len
-                    this.homeworks = response.body.content.map((homework: HomeworksDto) => ({ ...homework, progress: { completed: 0, currentStep: 0, totalSteps: 10 } }));
+                if (response.body && Array.isArray(response.body)) {
+                    this.homeworks = response.body;
                     this.cdr.detectChanges();
                 }
             },

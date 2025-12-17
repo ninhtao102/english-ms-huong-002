@@ -185,6 +185,7 @@
     },
     "homeworks": {
         "field": "homework",
+        "submitField": "submit homework",
         "questionField": "homework question",
         "answerField": "homework answer",
         "preview": "Preview Homework",

@@ -28,4 +28,8 @@ export class PersonsService extends BaseService {
         super(http, '/persons');
     }
 
+    getByUsername(username: string) {
+        return this.http.get(this.baseApiUrl + `/persons/username/${username}`);
+    }
+
 }
