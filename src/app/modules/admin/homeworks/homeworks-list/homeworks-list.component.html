@@ -113,7 +113,7 @@
 
 								<!-- Homework launch button -->
 								<div class="px-6 py-4 text-right bg-gray-50 dark:bg-transparent">
-									<button mat-stroked-button [routerLink]="[homework.id]">
+									<button mat-stroked-button [routerLink]="[homework.homeworkAssignmentId]">
 										<span class="inline-flex items-center">
 											<!-- Not started -->
 											<ng-container *ngIf="homework.progress.currentStep === 0">
@@ -132,6 +132,12 @@
 											<ng-container *ngIf="homework.progress.currentStep > 0">
 												<span>Continue</span>
 											</ng-container>
+
+                                            <!-- Graded -->
+                                            <ng-container *ngIf="homework.progress.currentStep === homework.totalSteps && homework.status === 3">
+												<span>View</span>
+											</ng-container>
+
 											<mat-icon class="ml-1.5 icon-size-5"
 												[svgIcon]="'heroicons_solid:arrow-sm-right'"></mat-icon>
 										</span>
