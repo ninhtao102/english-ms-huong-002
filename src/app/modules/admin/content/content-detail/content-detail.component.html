@@ -1,57 +1,67 @@
-<div class="p-6">
-	<div class="flex items-center justify-between mb-6">
-		<h2 mat-dialog-title class="m-0">{{ readonly ? ('common.view' | transloco) : ('common.addEdit' | transloco) }} {{ 'common.content' | transloco }}</h2>
-		<button mat-icon-button [mat-dialog-close]>
-			<mat-icon [svgIcon]="'heroicons_solid:x'"></mat-icon>
-		</button>
-	</div>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+    <mat-drawer-container class="flex-auto h-full">
+        <!-- Drawer -->
+        <mat-drawer class="w-90 dark:bg-gray-900" [autoFocus]="false" [mode]="drawerMode" [opened]="drawerOpened" #matDrawer>
+            <div class="flex flex-col items-start p-8 border-b">
+                <!-- Back to content list -->
+                <a class="inline-flex items-center leading-6 text-primary hover:underline" [routerLink]="['..']">
+                    <span class="inline-flex items-center">
+                        <mat-icon class="icon-size-5 text-current" [svgIcon]="'heroicons_solid:arrow-sm-left'"></mat-icon>
+                        <span class="ml-1.5 font-medium leading-5">{{ 'content.label.backtoContent' | transloco }}</span>
+                    </span>
+                </a>
 
-	<mat-dialog-content>
-		<form [formGroup]="formDetail">
-			<div class="flex gap-6 mb-4">
-				<mat-form-field class="flex-1">
-                    <mat-label>{{ 'content.label.code' | transloco }}</mat-label>
-                    <input matInput formControlName="code" [disabled]="readonly" required maxlength="21" (blur)="trimValue('code')">
-                    <mat-error *ngIf="formDetail.controls['code']?.hasError('required')">
-                        {{ 'common.invalidRequired' | transloco : { field: ('content.label.code' | transloco) } }}
-                    </mat-error>
-                    <mat-error *ngIf="formDetail.controls['code']?.hasError('maxlength')">
-                        {{ 'common.invalidMaxLength' | transloco : { field: ('content.label.code' | transloco), max: 20 } }}
-                    </mat-error>
-                </mat-form-field>
+                <div class="mt-3 text-2xl font-semibold" *ngIf="detail?.name">{{ detail?.name }}</div>
+                <div class="text-secondary" *ngIf="detail?.shortDescription">{{ detail?.shortDescription }}</div>
 
-				<mat-form-field class="flex-1">
-					<mat-label>{{ 'content.label.name' | transloco }}</mat-label>
-					<input matInput formControlName="name" [disabled]="readonly" required maxlength="256" (blur)="trimValue('name')">
-                    <mat-error *ngIf="formDetail.controls['name']?.hasError('required')">
-                        {{ 'common.invalidRequired' | transloco : { field: ('content.label.name' | transloco) } }}
-                    </mat-error>
-                    <mat-error *ngIf="formDetail.controls['name']?.hasError('maxlength')">
-                        {{ 'common.invalidMaxLength' | transloco : { field: ('content.label.name' | transloco), max: 255 } }}
-                    </mat-error>
-				</mat-form-field>
-			</div>
+                <div class="mt-6 flex items-center leading-5 text-md text-secondary" *ngIf="detail?.createdDate">
+                    <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                    <div class="ml-1.5">{{ 'common.createdDate' | transloco }} {{ detail?.createdDate | date: 'dd/MM/yyyy' }}</div>
+                </div>
 
-			<mat-form-field class="w-full mb-4">
-				<mat-label>{{ 'content.label.shortDescription' | transloco }}</mat-label>
-				<textarea matInput formControlName="shortDescription" [disabled]="readonly" rows="2" maxlength="501" (blur)="trimValue('shortDescription')"></textarea>
-                <mat-error *ngIf="formDetail.controls['shortDescription']?.hasError('maxlength')">
-                    {{ 'common.invalidMaxLength' | transloco : { field: ('content.label.shortDescription' | transloco), max: 500 } }}
-                </mat-error>
-			</mat-form-field>
+                <div class="mt-3 leading-5 text-md text-secondary" *ngIf="detail?.code">
+                    <span class="font-semibold text-primary">{{ 'content.label.code' | transloco }}:</span>
+                    <span class="ml-1">{{ detail?.code }}</span>
+                </div>
+            </div>
+        </mat-drawer>
 
-			<mat-form-field class="w-full mb-4">
-				<mat-label>{{ 'content.label.description' | transloco }}</mat-label>
-				<textarea matInput formControlName="description" [disabled]="readonly" rows="4" maxlength="501" (blur)="trimValue('description')"></textarea>
-                <mat-error *ngIf="formDetail.controls['description']?.hasError('maxlength')">
-                    {{ 'common.invalidMaxLength' | transloco : { field: ('content.label.description' | transloco), max: 500 } }}
-                </mat-error>
-			</mat-form-field>
-		</form>
-	</mat-dialog-content>
+        <!-- Drawer content -->
+        <mat-drawer-content class="flex flex-col overflow-hidden">
+            <!-- Mobile header -->
+            <div class="lg:hidden flex flex-0 items-center py-2 pl-4 pr-6 sm:py-4 md:pl-6 md:pr-8 border-b lg:border-b-0 bg-card dark:bg-transparent">
+                <button mat-icon-button (click)="matDrawer.toggle()">
+                    <mat-icon [svgIcon]="'heroicons_outline:view-list'"></mat-icon>
+                </button>
 
-	<mat-dialog-actions align="end">
-		<button mat-stroked-button (click)="onCancel()">{{ 'common.cancel' | transloco }}</button>
-		<button mat-flat-button color="primary" (click)="onSave()" [disabled]="readonly || !formDetail.valid">{{ 'common.save' | transloco }}</button>
-	</mat-dialog-actions>
+                <button class="ml-1" mat-icon-button [routerLink]="['..']">
+                    <mat-icon [svgIcon]="'heroicons_outline:arrow-sm-left'"></mat-icon>
+                </button>
+
+                <h2 class="ml-2.5 text-md sm:text-xl font-medium tracking-tight truncate">
+                    {{ detail?.name }}
+                </h2>
+            </div>
+
+            <!-- Main -->
+            <div class="flex-auto overflow-y-auto" cdkScrollable>
+                <div class="max-w-4xl mx-auto p-6 sm:p-10 sm:py-12">
+                    <div class="rounded-2xl shadow bg-card p-6 sm:p-10">
+                        <div class="flex flex-wrap justify-center items-center gap-3">
+                            <div class="text-3xl font-bold leading-tight">{{ detail?.name }}</div>
+                        </div>
+
+                        <div class="mt-2 text-secondary" *ngIf="detail?.shortDescription">{{ detail?.shortDescription }}</div>
+
+                        <div class="mt-6 space-y-3">
+                            <div class="prose prose-sm max-w-none whitespace-pre-line text-base" *ngIf="detail?.description; else emptyDescription" [innerHTML]="detail?.description"></div>
+                            <ng-template #emptyDescription>
+                                <div class="text-secondary">{{ 'common.noDataAvailable' | transloco }}</div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-drawer-content>
+    </mat-drawer-container>
 </div>

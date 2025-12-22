@@ -138,7 +138,8 @@
             "shortDescription": "Mô tả ngắn",
             "contentType": "Loại nội dung",
             "url": "Đường dẫn URL",
-            "filePath": "Đường dẫn tệp"
+            "filePath": "Đường dẫn tệp",
+            "backtoContent": "Quay lại Nội dung"
         },
         "placeholders": {
             "code": "Nhập mã",

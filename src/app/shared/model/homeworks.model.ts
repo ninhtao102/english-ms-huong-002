@@ -37,8 +37,10 @@ export interface HomeworksSearch {
 }
 
 export const LIST_QUESTION_TYPES = [
-    { value: 0, label: 'questions.type.essay' },
     { value: 1, label: 'questions.type.singleChoice' },
     { value: 2, label: 'questions.type.multipleChoice' },
-    { value: 3, label: 'questions.type.paragraph' },
+    { value: 3, label: 'questions.type.reading' },
+    { value: 4, label: 'questions.type.fillBlanks' },
+    { value: 5, label: 'questions.type.rewrite' },
+    { value: 6, label: 'questions.type.essay' },
 ];
